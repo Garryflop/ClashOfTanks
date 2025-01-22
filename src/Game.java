@@ -16,7 +16,7 @@ public class Game extends JFrame {
 
     public Game(int fps) {
         initializeGame();
-        setTitle("ClashOfTanks");
+        setTitle("Tank Battle");
         setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -33,12 +33,47 @@ public class Game extends JFrame {
     }
 
     private void resetGame() {
+        player1 = new Tank("Player 1", 50, 50, Color.RED);
+        player2 = new Tank("Player 2", 400, 400, Color.BLUE);
+        gamePanel = new GamePanel(player1, player2);
+
+        getContentPane().removeAll();
+        add(gamePanel);
+        revalidate();
+        repaint();
+
+        if (timer != null) {
+            timer.stop();
+        }
+
+        timer = new Timer(1000 / 60, e -> {
+            handleMovement();
+            gamePanel.repaint();
+        });
+        timer.start();
     }
 
     private void showWinnerAndReset(String winner) {
+        timer.stop();
+        if (winner.equals("Player 1")) {
+            player1Score++;
+        } else {
+            player2Score++;
+        }
+        JOptionPane.showMessageDialog(this, winner + " wins!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        resetGame();
     }
 
     private void handleMovement() {
+        if (keysPressed.contains(KeyEvent.VK_W)) player1.moveForward();
+        if (keysPressed.contains(KeyEvent.VK_S)) player1.moveBackward();
+        if (keysPressed.contains(KeyEvent.VK_A)) player1.rotateLeft();
+        if (keysPressed.contains(KeyEvent.VK_D)) player1.rotateRight();
+
+        if (keysPressed.contains(KeyEvent.VK_UP)) player2.moveForward();
+        if (keysPressed.contains(KeyEvent.VK_DOWN)) player2.moveBackward();
+        if (keysPressed.contains(KeyEvent.VK_LEFT)) player2.rotateLeft();
+        if (keysPressed.contains(KeyEvent.VK_RIGHT)) player2.rotateRight();
     }
 
     private class GameKeyListener implements KeyListener {

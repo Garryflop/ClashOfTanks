@@ -20,16 +20,28 @@ public class Bullet {
     }
 
     public void move() {
+        double rad = Math.toRadians(angle);
+        x += (int) (Math.cos(rad) * speed);
+        y += (int) (Math.sin(rad) * speed);
     }
 
     public boolean isOutOfBounds() {
-        return true;
+        return x < 0 || x > 500 || y < 0 || y > 500;
     }
 
     public boolean hasHitTarget() {
-        return true;
+        if (Math.abs(x - target.getX()) < 40 && Math.abs(y - target.getY()) < 40) {
+            target.takeDamage(20);
+            if (target.isDestroyed()) {
+                onHit.run();
+            }
+            return true;
+        }
+        return false;
     }
 
     public void draw(Graphics g) {
+        g.setColor(color);
+        g.fillOval(x - 5, y - 5, 10, 10);
     }
 }
