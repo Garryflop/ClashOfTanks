@@ -16,8 +16,11 @@ public class UserController implements IUserController {
     public String createUser(String nickname) {
         User user = new User(nickname);
 
-        boolean created = repo.createUser(user);
-        return (created ? String.valueOf(user.getId()) : "User creation was failed!");
+        int created = repo.createUser(user);
+        if (created > 0) {
+            return created + "";
+        }
+        return "0";
     }
 
     public String getUser(int id) {

@@ -53,12 +53,14 @@ public class MyApplication {
         Scanner sc2 = new Scanner(System.in);
         String nickname2 = sc2.nextLine();
         String response = controller.createUser(nickname1);
+
         //try error
         int id1 = Integer.parseInt(response);
         //try catch
         String response2 = controller.createUser(nickname2);
         int id2 = Integer.parseInt(response2);
-        System.out.println(response);
+        System.out.println("RESPONSE = " + response);
+        System.out.println("RESPONSE = " + response2);
 
         createSession(id1, id2, repository);
     }
@@ -120,7 +122,7 @@ public class MyApplication {
 
         int id = scanner.nextInt();
 
-        String response = controller.getUser(id);
+        int response = Integer.parseInt(controller.getUser(id));
         System.out.println(response);
     }
 

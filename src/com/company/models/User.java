@@ -8,7 +8,7 @@ public class User {
     private int games_played;
     private double win_rate;
     public User() {
-        setId(++idCounter);
+//        setId(++idCounter);
     }
 
     public int getWins() {
@@ -36,7 +36,8 @@ public class User {
     }
 
     public User(String nickname) {
-        this();
+//        this();
+        setId(id);
         setNickname(nickname);
     }
 

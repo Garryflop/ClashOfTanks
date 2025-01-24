@@ -16,24 +16,28 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public boolean createUser(User user) {
+    public int createUser(User user) {
         Connection con = null;
 
         try {
             con = db.getConnection();
-            String sql = "INSERT INTO players(nickname) VALUES (?)";
+            String sql = "INSERT INTO players(nickname) VALUES (?) RETURNING id";
             PreparedStatement st = con.prepareStatement(sql);
 
             st.setString(1, user.getNickname());
 
-            st.execute();
-
-            return true;
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    int generatedId = rs.getInt("id");
+                    System.out.println("User created: " + user.getNickname() + " with ID: " + generatedId);
+                    return generatedId;
+                }
+            }
         } catch (SQLException e) {
             System.out.println("sql error: " + e.getMessage());
         }
 
-        return false;
+        return 0;
     }
 
     @Override
@@ -42,15 +46,18 @@ public class UserRepository implements IUserRepository {
 
         try {
             con = db.getConnection();
-            String sql = "SELECT nickname FROM players WHERE id=?";
+            String sql = "SELECT id, nickname, wins, games_played, win_rate FROM players WHERE id=?";
             PreparedStatement st = con.prepareStatement(sql);
 
             st.setInt(1, id);
 
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return new User(
-                        rs.getString("nickname"));
+                return new User(rs.getInt("id"),
+                        rs.getString("nickname"),
+                        rs.getInt("wins"),
+                        rs.getInt("games_played"),
+                        rs.getDouble("win_rate"));
             }
         } catch (SQLException e) {
             System.out.println("sql error: " + e.getMessage());
