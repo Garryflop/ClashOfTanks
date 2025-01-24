@@ -1,3 +1,10 @@
+package com.company;
+
+import com.company.controllers.interfaces.IUserController;
+import com.company.models.User;
+import com.company.repositories.UserRepository;
+import com.company.repositories.interfaces.IUserRepository;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -6,23 +13,28 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Game extends JFrame {
+    private final IUserRepository repository;
     private Tank player1;
     private Tank player2;
     private GamePanel gamePanel;
     private int player1Score;
     private int player2Score;
+    private User user1;
+    private User user2;
     private Timer timer;
     private Set<Integer> keysPressed;
 
-    public Game(int fps) {
+    public Game(int fps, int id1,int id2, IUserRepository repository) {
         initializeGame();
-        setTitle("Tank Battle");
+        setTitle("com.company.Tank Battle");
         setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
         keysPressed = new HashSet<>();
-
+        this.repository = repository;
+        User user1 = repository.getUser(id1);
+        User user2 = repository.getUser(id2);
         addKeyListener(new GameKeyListener());
     }
 
@@ -33,8 +45,8 @@ public class Game extends JFrame {
     }
 
     private void resetGame() {
-        player1 = new Tank("Player 1", 50, 50, Color.RED);
-        player2 = new Tank("Player 2", 400, 400, Color.BLUE);
+        player1 = new Tank(user1.getNickname(), 50, 50, Color.RED);
+        player2 = new Tank(user2.getNickname(), 400, 400, Color.BLUE);
         gamePanel = new GamePanel(player1, player2);
 
         getContentPane().removeAll();
@@ -60,7 +72,7 @@ public class Game extends JFrame {
         } else {
             player2Score++;
         }
-        JOptionPane.showMessageDialog(this, winner + " wins!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, winner + " wins!", "com.company.Game Over", JOptionPane.INFORMATION_MESSAGE);
         resetGame();
     }
 
