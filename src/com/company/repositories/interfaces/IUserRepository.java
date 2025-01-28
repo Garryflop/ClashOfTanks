@@ -10,4 +10,5 @@ public interface IUserRepository {
     List<User> getAllUsers();
     boolean deleteUser(int id);
     boolean updateUser(int id, String nickname);
+    boolean updateUser(int id, int wins, int games_played);
 }

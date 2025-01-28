@@ -6,4 +6,5 @@ public interface IUserController {
     String getAllUsers();
     String deleteUser(int id);
     String updateUser(int id, String nickname);
+    String updateUser(int id, int wins, int games_played);
 }

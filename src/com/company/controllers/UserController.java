@@ -50,4 +50,10 @@ public class UserController implements IUserController {
         boolean updated = repo.updateUser(id, nickname);
         return (updated ? "User was updated!" : "User update was failed!");
     }
+
+    public String updateUser(int id, int wins, int games_played) {
+        User user = repo.getUser(id);
+        boolean updated = repo.updateUser(id, wins, games_played);
+        return (updated ? "User was updated!" : "User update was failed!");
+    }
 }

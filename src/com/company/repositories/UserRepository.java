@@ -142,4 +142,36 @@ public class UserRepository implements IUserRepository {
         }
         return false;
     }
+
+    public boolean updateUser(int id, int wins, int games_played) {
+        Connection con = null;
+        User user = getUser(id);
+        try {
+            con = db.getConnection();
+            String sql = """
+                UPDATE players 
+                SET nickname = ?, 
+                    wins = ?, 
+                    games_played = ?, 
+                    win_rate = ? 
+                WHERE id = ?""";
+            PreparedStatement st = con.prepareStatement(sql);
+            double win_rate = 100;
+            if (games_played != 0){
+                win_rate = (wins/games_played)* 100;
+            }
+
+            st.setString(1, user.getNickname());
+            st.setInt(2, wins);
+            st.setInt(3, games_played);
+            st.setDouble(4, win_rate);
+            st.setInt(5, user.getId());
+
+            int rowsUpdated = st.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            System.out.println("sql error: " + e.getMessage());
+        }
+        return false;
+    }
 }

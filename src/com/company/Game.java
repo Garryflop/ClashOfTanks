@@ -90,12 +90,16 @@ public class Game extends JFrame {
 
     private void showWinnerAndReset(String winner) {
         timer.stop();
-        if (winner.equals(nickname1)) {
+        if (winner.equals(user1.getNickname())) {
             player1Score++;
+
         } else {
             player2Score++;
+
         }
-        JOptionPane.showMessageDialog(this, winner + " wins!", "com.company.Game Over", JOptionPane.INFORMATION_MESSAGE);
+        repository.updateUser(user1.getId(), player1Score, player2Score + player1Score);
+        repository.updateUser(user2.getId(), player2Score, player2Score + player1Score);
+        JOptionPane.showMessageDialog(this, winner + " wins!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
         resetGame();
     }
 
@@ -119,13 +123,13 @@ public class Game extends JFrame {
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 player1.fireBullet(player2, () -> {
                     if (player2.isDestroyed()) {
-                        showWinnerAndReset("Player 1");
+                        showWinnerAndReset(user1.getNickname());
                     }
                 });
             } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 player2.fireBullet(player1, () -> {
                     if (player1.isDestroyed()) {
-                        showWinnerAndReset("Player 2");
+                        showWinnerAndReset(user2.getNickname());
                     }
                 });
             }
