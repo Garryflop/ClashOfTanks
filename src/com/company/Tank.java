@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Tank {
+public abstract class Tank {
     private String name;
     private int x;
     private int y;
@@ -13,15 +13,22 @@ public class Tank {
     private int angle;
     private ArrayList<Bullet> bullets;
 
-    public Tank(String name, int x, int y, Color color) {
+
+    public Tank(String name, int x, int y, Color color, int health) {
         this.name = name;
         this.x = x;
         this.y = y;
-        this.health = 100;
+        this.health = health;
         this.color = color;
         this.angle = 0;
         this.bullets = new ArrayList<>();
     }
+
+    // Абстрактный метод для получения урона танка (различается для каждого типа)
+    public abstract int getDamage();
+
+    // Абстрактный метод для получения скорости движения танка
+    public abstract int getSpeed();
 
     public void moveForward() {
         double rad = Math.toRadians(angle);
@@ -47,7 +54,7 @@ public class Tank {
         double rad = Math.toRadians(angle);
         int bulletX = (int) (x + 20 + Math.cos(rad) * 20);
         int bulletY = (int) (y + 20 + Math.sin(rad) * 20);
-        bullets.add(new Bullet(bulletX, bulletY, angle, color, opponent, onOpponentDefeat));
+        bullets.add(new Bullet(bulletX, bulletY, angle, color, opponent, onOpponentDefeat, getDamage()));
     }
 
     public void updateBullets(Graphics g) {
