@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.models.Tank;
+
 import java.awt.*;
 
 public class Bullet {

@@ -7,6 +7,9 @@ import com.company.data.PostgresDB;
 import com.company.data.interfaces.IDB;
 import com.company.repositories.UserRepository;
 import com.company.repositories.interfaces.IUserRepository;
+import com.company.singleton.SoundManager;
+
+import java.net.URL;
 
 public class MyGame {
     public static void main(String[] args) {

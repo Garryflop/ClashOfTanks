@@ -1,12 +1,12 @@
 package com.company;
 
-import com.company.controllers.interfaces.IUserController;
+import com.company.models.AssaultTank;
+import com.company.models.ScoutTank;
+import com.company.models.Tank;
 import com.company.models.User;
-import com.company.repositories.UserRepository;
 import com.company.repositories.interfaces.IUserRepository;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashSet;
