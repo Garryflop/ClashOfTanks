@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.controllers.interfaces.IUserController;
+import com.company.factory.TankType;
 import com.company.repositories.interfaces.IUserRepository;
 import com.company.singleton.SoundManager;
 
@@ -45,13 +46,15 @@ public class MyApplication {
     }
 
     private void createUsersMenu(){
-        //soon pick tank type
         System.out.println("1st Player's nickname:");
         Scanner sc1 = new Scanner(System.in);
         String nickname1 = sc1.nextLine();
+        TankType type1 = createChooseTankMenu();
+
         System.out.println("2nd Player's nickname:");
         Scanner sc2 = new Scanner(System.in);
         String nickname2 = sc2.nextLine();
+        TankType type2 = createChooseTankMenu();
         String response = controller.createUser(nickname1);
 
         //try error
@@ -62,11 +65,36 @@ public class MyApplication {
         System.out.println("RESPONSE = " + response);
         System.out.println("RESPONSE = " + response2);
 
-        createSession(id1, id2, repository);
+        createSession(id1, id2, repository, type1, type2);
     }
 
-    public void createSession(int id1, int id2, IUserRepository repository){
-        SwingUtilities.invokeLater(() -> new Game(60, id1, id2, repository));
+    private TankType createChooseTankMenu(){
+        System.out.println("Choose your Tank");
+        System.out.println("1. Assault");
+        System.out.println("2. Defender");
+        System.out.println("3. Scout");
+        System.out.println();
+        System.out.print("Enter option (1-3): ");
+        TankType request = null;
+        try {
+            int option = scanner.nextInt();
+            switch (option) {
+                case 1: request = TankType.ASSAULT; break;
+                case 2: request = TankType.DEFENDER; break;
+                case 3: request = TankType.SCOUT; break;
+                default: return request;
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Input must be integer: " + e);
+            scanner.nextLine();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return request;
+    }
+
+    public void createSession(int id1, int id2, IUserRepository repository, TankType type1, TankType type2){
+        SwingUtilities.invokeLater(() -> new Game(60, id1, id2, repository, type1, type2));
         SoundManager.getInstance().playMusic("com/company/resources/music/background.wav");
     }
 
