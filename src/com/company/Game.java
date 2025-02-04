@@ -68,8 +68,8 @@ public class Game extends JFrame {
     }
 
     private void resetGame() {
-        player1 = new Tank(nickname1, 50, 50, Color.RED);
-        player2 = new Tank(nickname2, 400, 400, Color.BLUE);
+        player1 = new AssaultTank(nickname1, 50, 50);
+        player2 = new ScoutTank(nickname2, 400, 400);
         gamePanel = new GamePanel(player1, player2);
 
         getContentPane().removeAll();
