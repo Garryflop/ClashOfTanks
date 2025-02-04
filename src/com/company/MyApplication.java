@@ -1,8 +1,8 @@
 package com.company;
 
 import com.company.controllers.interfaces.IUserController;
-import com.company.repositories.UserRepository;
 import com.company.repositories.interfaces.IUserRepository;
+import com.company.singleton.SoundManager;
 
 import javax.swing.*;
 import java.util.InputMismatchException;
@@ -67,6 +67,7 @@ public class MyApplication {
 
     public void createSession(int id1, int id2, IUserRepository repository){
         SwingUtilities.invokeLater(() -> new Game(60, id1, id2, repository));
+        SoundManager.getInstance().playMusic("com/company/resources/music/background.wav");
     }
 
     public void start() {

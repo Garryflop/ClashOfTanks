@@ -1,12 +1,12 @@
 package com.company;
 
-import com.company.controllers.interfaces.IUserController;
+import com.company.models.AssaultTank;
+import com.company.models.ScoutTank;
+import com.company.models.Tank;
 import com.company.models.User;
-import com.company.repositories.UserRepository;
 import com.company.repositories.interfaces.IUserRepository;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashSet;
@@ -68,8 +68,8 @@ public class Game extends JFrame {
     }
 
     private void resetGame() {
-        player1 = new Tank(nickname1, 50, 50, Color.RED);
-        player2 = new Tank(nickname2, 400, 400, Color.BLUE);
+        player1 = new AssaultTank(nickname1, 50, 50);
+        player2 = new ScoutTank(nickname2, 400, 400);
         gamePanel = new GamePanel(player1, player2);
 
         getContentPane().removeAll();

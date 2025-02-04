@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.models.Tank;
+
 import java.awt.*;
 
 public class Bullet {
@@ -10,8 +12,9 @@ public class Bullet {
     private Color color;
     private Tank target;
     private Runnable onHit;
+    private int damage;
 
-    public Bullet(int x, int y, int angle, Color color, Tank target, Runnable onHit) {
+    public Bullet(int x, int y, int angle, Color color, Tank target, Runnable onHit, int damage) {
         this.x = x;
         this.y = y;
         this.angle = angle;
@@ -19,6 +22,7 @@ public class Bullet {
         this.color = color;
         this.target = target;
         this.onHit = onHit;
+        this.damage = damage;
     }
 
     public void move() {
@@ -33,7 +37,7 @@ public class Bullet {
 
     public boolean hasHitTarget() {
         if (Math.abs(x - target.getX()) < 40 && Math.abs(y - target.getY()) < 40) {
-            target.takeDamage(20);
+            target.takeDamage(damage);
             if (target.isDestroyed()) {
                 onHit.run();
             }
