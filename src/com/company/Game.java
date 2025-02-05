@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.factory.TankFactory;
+import com.company.factory.TankType;
 import com.company.models.AssaultTank;
 import com.company.models.ScoutTank;
 import com.company.models.Tank;
@@ -23,17 +25,21 @@ public class Game extends JFrame {
     private final User user2;
     private String nickname1;
     private String nickname2;
+    private TankType tankType1;
+    private TankType tankType2;
     private Timer timer;
     private Set<Integer> keysPressed;
 
 
-    public Game(int fps, int id1,int id2, IUserRepository repository) {
+    public Game(int fps, int id1, int id2, IUserRepository repository, TankType type1, TankType type2) {
 
         this.repository = repository;
 //        User user1 = repository.getUser(20);
 //        User user2 = new repository.getUser(21);
         this.user1 = repository.getUser(id1);
         this.user2 = repository.getUser(id2);
+        this.tankType1 = type1;
+        this.tankType2 = type2;
 
         setNickname1(user1.getNickname());
         setNickname2(user2.getNickname());
@@ -68,8 +74,8 @@ public class Game extends JFrame {
     }
 
     private void resetGame() {
-        player1 = new AssaultTank(nickname1, 50, 50);
-        player2 = new ScoutTank(nickname2, 400, 400);
+        player1 = TankFactory.createTank(tankType1, nickname1, 50, 50);
+        player2 = TankFactory.createTank(tankType2, nickname2, 400, 400);
         gamePanel = new GamePanel(player1, player2);
 
         getContentPane().removeAll();

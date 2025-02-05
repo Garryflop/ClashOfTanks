@@ -156,9 +156,9 @@ public class UserRepository implements IUserRepository {
                     win_rate = ? 
                 WHERE id = ?""";
             PreparedStatement st = con.prepareStatement(sql);
-            double win_rate = 100;
+            double win_rate = 0;
             if (games_played != 0){
-                win_rate = (wins/games_played)* 100;
+                win_rate = (double) wins / games_played* 100;
             }
 
             st.setString(1, user.getNickname());
