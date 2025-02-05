@@ -1,6 +1,5 @@
 package com.company.factory;
 
-import java.awt.Color;
 
 public class FactoryParams {
     private final String name;

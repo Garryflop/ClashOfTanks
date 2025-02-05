@@ -39,7 +39,7 @@ public class Bullet {
         if (Math.abs(x - target.getX()) < 40 && Math.abs(y - target.getY()) < 40) {
             target.takeDamage(damage);
             if (target.isDestroyed()) {
-                onHit.run();
+                onHit.run(); 
             }
             return true;
         }
